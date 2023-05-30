@@ -5,8 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Setter
@@ -27,6 +26,25 @@ public class Student {
     private String password;
     @DBRef
     private List<Course> courses = new ArrayList<>();
+    @DBRef
+    private Set<Role> roleHashSet;
 
 
+    public Student(String id, String studentFirstName, String studentLastName, String gender, String studentAge, String email,
+                   String password,
+                   RoleType roleType) {
+        this.id = id;
+        this.studentFirstName = studentFirstName;
+        this.studentLastName = studentLastName;
+        this.gender = gender;
+        this.studentAge = studentAge;
+        this.email = email;
+        this.password = password;
+        if (roleHashSet == null) {
+            roleHashSet = new HashSet<>();
+            roleHashSet.add(new Role(roleType));
+
+
+        }
+    }
 }

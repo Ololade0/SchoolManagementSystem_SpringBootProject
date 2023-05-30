@@ -6,9 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.School;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Student;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.*;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.RoleRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.SchoolRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.*;
@@ -21,6 +20,7 @@ import java.util.*;
 public class SchoolServicesImpl implements SchoolServices {
 
     private final SchoolRepository schoolRepository;
+    private final RoleRepository roleRepository;
 
 
     private final StudentService studentService;
@@ -36,15 +36,25 @@ public class SchoolServicesImpl implements SchoolServices {
                 .schoolName(registerSchoolRequest.getSchoolName())
                 .email(registerSchoolRequest.getEmail())
                 .schoolLocation(registerSchoolRequest.getSchoolLocation())
+                .roleHashSet(new HashSet<>())
                 .build();
+        Role userRole = new Role(RoleType.ADMIN);
+        userRole = roleRepository.save(userRole);
+        newSchool.getRoleHashSet().add(userRole);
         School foundSchool = schoolRepository.save(newSchool);
+
+
         return RegisterSchoolResponse.builder()
                 .message("School successfully registered")
                 .schoolId(foundSchool.getId())
                 .schoolName(foundSchool.getSchoolName())
                 .email(foundSchool.getEmail())
+                .roleType(RoleType.ADMIN)
                 .schoolLocation(foundSchool.getSchoolLocation())
                 .build();
+
+
+//        sendMail(customerRegister);
     }
 
     @Override
@@ -132,12 +142,15 @@ public class SchoolServicesImpl implements SchoolServices {
         Optional<School> foundSchool = schoolRepository.findSchoolById(admitStudentRequest.getSchoolId());
         if (foundSchool.isPresent() && foundSchool.get().getStudents().contains(admittedStudent)) {
             foundSchool.get().getStudents().add(admittedStudent);
+            Role userRole = new Role(RoleType.STUDENT);
+            userRole = roleRepository.save(userRole);
+            admittedStudent.getRoleHashSet().add(userRole);
             schoolRepository.save(foundSchool.get());
         }
 
         return AdmitStudentResponse
                 .builder()
-
+                .roleType(RoleType.STUDENT)
                 .schoolName(foundSchool.get().getSchoolName())
                 .firstName(admittedStudent.getStudentFirstName())
                 .message(admittedStudent.getStudentFirstName() + " " +  admittedStudent.getStudentLastName() + " sucessfully admitted")

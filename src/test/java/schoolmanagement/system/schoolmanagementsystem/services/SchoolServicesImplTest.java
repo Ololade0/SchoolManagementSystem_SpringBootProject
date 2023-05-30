@@ -5,9 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.School;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Student;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.*;
@@ -33,8 +31,10 @@ class SchoolServicesImplTest {
                 .schoolLocation("Sabo")
                 .email("Semicolon@gmail.com")
                 .schoolName("Semicolon")
+//                .roles(RoleType.ADMIN)
                 .build();
         savedSchool = schoolService.registerSchool(registerSchoolRequest);
+
 
 
         AdmitStudentRequest admitStudentRequest = AdmitStudentRequest
@@ -48,6 +48,7 @@ class SchoolServicesImplTest {
                 .schoolId(savedSchool.getSchoolId())
                 .build();
         savedStudent = schoolService.admitStudent(admitStudentRequest);
+
 
 
         CreateCourseRequest createCourseRequest = CreateCourseRequest.builder()
