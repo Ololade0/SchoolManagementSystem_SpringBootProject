@@ -20,7 +20,7 @@ import java.util.*;
 public class SchoolServicesImpl implements SchoolServices {
 
     private final SchoolRepository schoolRepository;
-    private final RoleRepository roleRepository;
+    private final RoleServices roleServices;
 
 
     private final StudentService studentService;
@@ -38,8 +38,9 @@ public class SchoolServicesImpl implements SchoolServices {
                 .schoolLocation(registerSchoolRequest.getSchoolLocation())
                 .roleHashSet(new HashSet<>())
                 .build();
+
         Role userRole = new Role(RoleType.ADMIN);
-        userRole = roleRepository.save(userRole);
+        userRole = roleServices.save(userRole);
         newSchool.getRoleHashSet().add(userRole);
         School foundSchool = schoolRepository.save(newSchool);
 
@@ -142,8 +143,9 @@ public class SchoolServicesImpl implements SchoolServices {
         Optional<School> foundSchool = schoolRepository.findSchoolById(admitStudentRequest.getSchoolId());
         if (foundSchool.isPresent() && foundSchool.get().getStudents().contains(admittedStudent)) {
             foundSchool.get().getStudents().add(admittedStudent);
+
             Role userRole = new Role(RoleType.STUDENT);
-            userRole = roleRepository.save(userRole);
+            userRole = roleServices.save(userRole);
             admittedStudent.getRoleHashSet().add(userRole);
             schoolRepository.save(foundSchool.get());
         }
