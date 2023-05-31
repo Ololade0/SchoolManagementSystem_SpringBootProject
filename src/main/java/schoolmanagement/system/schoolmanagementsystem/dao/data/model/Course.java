@@ -2,6 +2,7 @@ package schoolmanagement.system.schoolmanagementsystem.dao.data.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
 
@@ -15,11 +16,13 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.Cours
 @Document("course")
 public class Course {
     @Id
-    private String id;
-    private String courseName;
-    private String courseTitle;
-    private String courseCode;
+    private java.lang.String id;
+    private java.lang.String courseName;
+    private java.lang.String courseTitle;
+    private java.lang.String courseCode;
     private CourseStatus courseStatus;
+    @DBRef
+    private Teacher teacher;
 
 
 

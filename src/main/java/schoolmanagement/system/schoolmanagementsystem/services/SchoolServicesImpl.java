@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.*;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.RoleRepository;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.SchoolRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.*;
@@ -21,6 +21,7 @@ public class SchoolServicesImpl implements SchoolServices {
 
     private final SchoolRepository schoolRepository;
     private final RoleServices roleServices;
+    private final TeacherService teacherService;
 
 
     private final StudentService studentService;
@@ -64,7 +65,7 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public School findSchoolById(String id) {
+    public School findSchoolById(java.lang.String id) {
         Optional<School> school = schoolRepository.findSchoolById(id);
         if (school.isPresent()) {
             return schoolRepository.findById(id).orElseThrow(
@@ -91,7 +92,7 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String deleteById(String id) {
+    public java.lang.String deleteById(java.lang.String id) {
         Optional<School> foundSchool = schoolRepository.findSchoolById(id);
         if (foundSchool.isPresent()) {
             schoolRepository.deleteById(id);
@@ -104,7 +105,7 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String deleteAllSchools() {
+    public java.lang.String deleteAllSchools() {
         schoolRepository.deleteAll();
         return "Succesfully deleted";
 
@@ -112,11 +113,10 @@ public class SchoolServicesImpl implements SchoolServices {
 
     @Override
     public School updateSchoolProfile(UpdateSchoolProfileRequest updateSchoolProfileRequest) {
-       return updateSchool(updateSchoolProfileRequest);
+        return updateSchool(updateSchoolProfileRequest);
 
 
     }
-
 
 
     private School updateSchool(UpdateSchoolProfileRequest updateSchoolProfileRequest) {
@@ -155,7 +155,7 @@ public class SchoolServicesImpl implements SchoolServices {
                 .roleType(RoleType.STUDENT)
                 .schoolName(foundSchool.get().getSchoolName())
                 .firstName(admittedStudent.getStudentFirstName())
-                .message(admittedStudent.getStudentFirstName() + " " +  admittedStudent.getStudentLastName() + " sucessfully admitted")
+                .message(admittedStudent.getStudentFirstName() + " " + admittedStudent.getStudentLastName() + " sucessfully admitted")
                 .studentId(admittedStudent.getId())
                 .build();
     }
@@ -166,32 +166,32 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public Student findStudentById(String schoolId, String studentId) {
+    public Student findStudentById(java.lang.String schoolId, java.lang.String studentId) {
         Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+        if (foundSchool.isPresent()) {
             return studentService.findStudentById(studentId);
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
     }
 
     @Override
-    public Student findStudentByName(String schoolId, String firstName) {
+    public Student findStudentByName(java.lang.String schoolId, java.lang.String firstName) {
         Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+        if (foundSchool.isPresent()) {
             return studentService.findStudentByName(firstName);
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
     }
 
     @Override
-    public String deleteAllStudents() {
+    public java.lang.String deleteAllStudents() {
         studentService.deleteAll();
         return "All Student successfully deleted";
     }
 
 
     @Override
-    public List<Student> findAllStudents(int limit, int page, String schoolId) {
+    public List<Student> findAllStudents(int limit, int page, java.lang.String schoolId) {
         List<Student> allStudents = studentService.findAllStudent(page, limit);
         Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
         if (foundSchool.isPresent()) {
@@ -202,12 +202,12 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String deleteStudentById(String schoolId, String studentId) {
-      Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-      if(foundSchool.isPresent()){
-          studentService.deleteStudentById(studentId);
-          return "Student successfully deleted";
-      }
+    public java.lang.String deleteStudentById(java.lang.String schoolId, java.lang.String studentId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
+            studentService.deleteStudentById(studentId);
+            return "Student successfully deleted";
+        }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
     }
 
@@ -249,19 +249,19 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public Course findCourseById(String courseId, String schoolId) {
-     Optional<School> foundSchool =   schoolRepository.findSchoolById(schoolId);
-     if(foundSchool.isPresent()){
-        return courseService.findCourseById(courseId);
-     }
-     throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
+    public Course findCourseById(java.lang.String courseId, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
+            return courseService.findCourseById(courseId);
+        }
+        throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
 
     }
 
     @Override
-    public Course findCourseByName(String courseName, String schoolId) {
-        Optional<School> foundSchool =   schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public Course findCourseByName(java.lang.String courseName, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             return courseService.findCourseByName(courseName);
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
@@ -269,9 +269,9 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public Course findCourseByCourseCode(String courseCode, String schoolId) {
-        Optional<School> foundSchool =   schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public Course findCourseByCourseCode(java.lang.String courseCode, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             return courseService.findCourseByCode(courseCode);
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
@@ -279,9 +279,9 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public Course findCourseByCourseTitle(String courseTitle, String schoolId) {
-        Optional<School> foundSchool =   schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public Course findCourseByCourseTitle(java.lang.String courseTitle, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             return courseService.findCourseByTitle(courseTitle);
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
@@ -289,7 +289,7 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public List<Course> findAllCourses(int limit, int page, String schoolId) {
+    public List<Course> findAllCourses(int limit, int page, java.lang.String schoolId) {
         List<Course> allCourses = courseService.findAllCourses(page, limit);
         Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
         if (foundSchool.isPresent()) {
@@ -300,7 +300,7 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String deleteAllCourses() {
+    public java.lang.String deleteAllCourses() {
         courseService.deleteAll();
         return "All Courses successfully deleted";
     }
@@ -311,19 +311,19 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String deleteCourseById(String schoolId, String courseId) {
-      Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-      if(foundSchool.isPresent()){
-          courseService.deleteById(courseId);
-          return "Course successfully deleted";
-      }
-      throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
+    public java.lang.String deleteCourseById(java.lang.String schoolId, java.lang.String courseId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
+            courseService.deleteById(courseId);
+            return "Course successfully deleted";
+        }
+        throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
     }
 
     @Override
     public UpdateCourseResponse updateCourseProfile(UpdateCourseRequest updateCourseRequest) {
-        Course foundCourse =  courseService.updateCourseProfile(updateCourseRequest, updateCourseRequest.getCourseId());
-                Optional<School> foundSchool = schoolRepository.findSchoolById(updateCourseRequest.getSchoolId());
+        Course foundCourse = courseService.updateCourseProfile(updateCourseRequest, updateCourseRequest.getCourseId());
+        Optional<School> foundSchool = schoolRepository.findSchoolById(updateCourseRequest.getSchoolId());
         if (foundSchool.isPresent()) {
             foundSchool.get().getCourses().add(foundCourse);
             schoolRepository.save(foundSchool.get());
@@ -335,9 +335,9 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String disactivateCourse(String courseName, String schoolId) {
-        Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public java.lang.String disactivateCourse(java.lang.String courseName, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             courseService.disactivateCourse(courseName);
             return "Course successfully disactivated";
         }
@@ -345,9 +345,9 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public String activateCourse(String courseName, String schoolId) {
-        Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public java.lang.String activateCourse(java.lang.String courseName, java.lang.String schoolId) {
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             courseService.activateCourse(courseName);
             return "Course successfully activated";
         }
@@ -355,10 +355,10 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public List<Course> findAllActivatedCourse(String schoolId) {
-       List<Course>activatedCourses = courseService.findAllActivatedCourse();
-        Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public List<Course> findAllActivatedCourse(java.lang.String schoolId) {
+        List<Course> activatedCourses = courseService.findAllActivatedCourse();
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             return activatedCourses;
 
         }
@@ -366,18 +366,43 @@ public class SchoolServicesImpl implements SchoolServices {
     }
 
     @Override
-    public List<Course> findAllDisactivatedCourse(String schoolId) {
-        List<Course>disActivatedCourses = courseService.findAllDisactivatedCourse();
-        Optional<School> foundSchool =  schoolRepository.findSchoolById(schoolId);
-        if(foundSchool.isPresent()){
+    public List<Course> findAllDisactivatedCourse(java.lang.String schoolId) {
+        List<Course> disActivatedCourses = courseService.findAllDisactivatedCourse();
+        Optional<School> foundSchool = schoolRepository.findSchoolById(schoolId);
+        if (foundSchool.isPresent()) {
             return disActivatedCourses;
 
         }
         throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(schoolId));
     }
 
+    @Override
+    public EmployTeacherResponse employNewTeacherToSchool(EmployTeacherRequest employTeacherRequest, java.lang.String schoolId) {
+        Teacher addNewTeacherToSchool = teacherService.addTeacher(employTeacherRequest);
+        Optional<School> foundSchool = schoolRepository.findSchoolById(employTeacherRequest.getSchoolId());
+        if (foundSchool.isPresent()) {
+            foundSchool.get().getTeachers().add(addNewTeacherToSchool);
+
+            Role userRole = new Role(RoleType.TEACHER);
+            userRole = roleServices.save(userRole);
+            addNewTeacherToSchool.getRoles().add(userRole);
+            schoolRepository.save(foundSchool.get());
+
+            return EmployTeacherResponse.builder()
+                    .gender(addNewTeacherToSchool.getGender())
+                    .lastName(addNewTeacherToSchool.getLastName())
+                    .email(addNewTeacherToSchool.getEmail())
+                    .firstName(addNewTeacherToSchool.getFirstName())
+                    .teacherId(addNewTeacherToSchool.getId())
+                    .schoolName(foundSchool.get().getSchoolName())
+
+                    .build();
+        }
+        throw new SchoolDoesExistException(SchoolDoesExistException.SchoolDoesExistException(foundSchool.get().getId()));
+    }
 
 }
+
 
 
 

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.Gender;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EmployTeacherRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.FindAllTeacherRequest;
 
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedTeacherProfileRequest;
@@ -26,15 +27,15 @@ class TeacherServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        Teacher teacher = Teacher.builder()
+        EmployTeacherRequest employTeacherRequest  = EmployTeacherRequest.builder()
                 .email("teacher@gmail.com")
                 .gender(Gender.MALE)
                 .firstName("ololade")
-                .password("1234")
+//                .password("1234")
                 .lastName("tosin")
                 .dateOfBirth(LocalDate.now())
                 .build();
-        savedTeacher = teacherService.addTeacher(teacher);
+        savedTeacher = teacherService.addTeacher(employTeacherRequest);
     }
 
     @AfterEach
@@ -91,7 +92,7 @@ class TeacherServiceImplTest {
     }
 
     @Test
-    public void testThatStudentCanBeUpdated() {
+    public void testThatTeacherProfileCanBeUpdated() {
         UpdatedTeacherProfileRequest updatedProfileRequest = UpdatedTeacherProfileRequest.builder()
                 .firstName("Eunice")
                 .teacherId(savedTeacher.getId())
@@ -105,5 +106,6 @@ class TeacherServiceImplTest {
         assertEquals("DemmyOlyns@gmail.com", updatedTeacher.getEmail());
         assertEquals(Gender.FEMALE, updatedTeacher.getGender());
     }
+
 
 }

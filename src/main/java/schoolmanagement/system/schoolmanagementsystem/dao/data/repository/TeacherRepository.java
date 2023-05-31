@@ -7,6 +7,6 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
 import java.util.Optional;
 
 @Repository
-public interface TeacherRepository extends MongoRepository<Teacher, String> {
-    Optional<Teacher>findTeacherByFirstName(String teacherName);
+public interface TeacherRepository extends MongoRepository<Teacher, java.lang.String> {
+    Optional<Teacher>findTeacherByFirstName(java.lang.String teacherName);
 }

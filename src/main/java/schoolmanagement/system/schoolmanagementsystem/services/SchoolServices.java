@@ -14,13 +14,13 @@ public interface SchoolServices  {
 
     long size();
 
-    School findSchoolById(String id);
+    School findSchoolById(java.lang.String id);
 
     List<School> findAllSchool(int page, int limit);
 
-    String deleteById(String id);
+    java.lang.String deleteById(java.lang.String id);
 
-    String deleteAllSchools();
+    java.lang.String deleteAllSchools();
 
     School updateSchoolProfile(UpdateSchoolProfileRequest updateSchoolProfileRequest);
 
@@ -28,45 +28,49 @@ public interface SchoolServices  {
 
     long sizeOfStudents();
 
-    Student findStudentById(String schoolId, String studentId);
+    Student findStudentById(java.lang.String schoolId, java.lang.String studentId);
 
-    Student findStudentByName(String schoolId, String firstName);
+    Student findStudentByName(java.lang.String schoolId, java.lang.String firstName);
 
-    String deleteAllStudents();
+    java.lang.String deleteAllStudents();
 
-   List<Student>findAllStudents(int limit, int page, String schoolId);
+   List<Student>findAllStudents(int limit, int page, java.lang.String schoolId);
 
-    String deleteStudentById(String schoolId, String studentId);
+    java.lang.String deleteStudentById(java.lang.String schoolId, java.lang.String studentId);
 
     UpdateStudentProfileResponse updateStudentProfile(UpdatedStudentProfileRequest updatedStudentProfileRequest);
 
     CreateCourseResponse createCourse(CreateCourseRequest createCourseRequest);
 
-    Course findCourseById(String courseId, String schoolId);
+    Course findCourseById(java.lang.String courseId, java.lang.String schoolId);
 
-    Course findCourseByName(String courseName, String schoolId);
+    Course findCourseByName(java.lang.String courseName, java.lang.String schoolId);
 
-    Course findCourseByCourseCode(String courseCode, String schoolId);
+    Course findCourseByCourseCode(java.lang.String courseCode, java.lang.String schoolId);
 
-    Course findCourseByCourseTitle(String courseTitle, String schoolId);
+    Course findCourseByCourseTitle(java.lang.String courseTitle, java.lang.String schoolId);
 
-    List<Course> findAllCourses(int limit, int page, String schoolId);
+    List<Course> findAllCourses(int limit, int page, java.lang.String schoolId);
 
-    String deleteAllCourses();
+    java.lang.String deleteAllCourses();
 
     long sizeOfCourses();
 
-    String deleteCourseById(String schoolId, String courseId);
+    java.lang.String deleteCourseById(java.lang.String schoolId, java.lang.String courseId);
 
 
     UpdateCourseResponse updateCourseProfile(UpdateCourseRequest updateCourseRequest);
 
 
-    String disactivateCourse(String courseName, String schoolId);
+    java.lang.String disactivateCourse(java.lang.String courseName, java.lang.String schoolId);
 
-    String activateCourse(String courseName, String schoolId);
+    java.lang.String activateCourse(java.lang.String courseName, java.lang.String schoolId);
 
-    List<Course> findAllActivatedCourse(String schoolId);
+    List<Course> findAllActivatedCourse(java.lang.String schoolId);
 
-    List<Course> findAllDisactivatedCourse(String schoolId);
+    List<Course> findAllDisactivatedCourse(java.lang.String schoolId);
+
+    EmployTeacherResponse  employNewTeacherToSchool(EmployTeacherRequest employTeacherRequest, java.lang.String schoolId);
+
+//    Teacher employTeacher(Teacher teacher);
 }

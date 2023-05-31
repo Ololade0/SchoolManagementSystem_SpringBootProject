@@ -6,10 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.*;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.Gender;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -175,14 +178,14 @@ class SchoolServicesImplTest {
 
     @Test
     public void testThatSchoolCanDeleteAllStudents() {
-        String deleteStudent = schoolService.deleteAllStudents();
+        java.lang.String deleteStudent = schoolService.deleteAllStudents();
         assertEquals(0, schoolService.sizeOfStudents());
 
     }
 
     @Test
     public void testThatSchoolCanDeleteStudentById() {
-        String deletedStudent = schoolService.deleteStudentById(savedSchool.getSchoolId(), savedStudent.getStudentId());
+        java.lang.String deletedStudent = schoolService.deleteStudentById(savedSchool.getSchoolId(), savedStudent.getStudentId());
         assertEquals("Student successfully deleted", deletedStudent);
         assertEquals(0, schoolService.sizeOfStudents());
 
@@ -275,7 +278,7 @@ class SchoolServicesImplTest {
 
     @Test
     public void testThatSchoolCanDeleteAllCourses() {
-        String deleteCourses = schoolService.deleteAllCourses();
+        java.lang.String deleteCourses = schoolService.deleteAllCourses();
         assertEquals(0, schoolService.sizeOfCourses());
         assertEquals("All Courses successfully deleted", deleteCourses);
 
@@ -284,7 +287,7 @@ class SchoolServicesImplTest {
 
     @Test
     public void testThatSchoolCanDeleteCourseById() {
-        String deletedCourse = schoolService.deleteCourseById(savedSchool.getSchoolId(), createdCourse.getCourseId());
+        java.lang.String deletedCourse = schoolService.deleteCourseById(savedSchool.getSchoolId(), createdCourse.getCourseId());
         assertEquals("Course successfully deleted", deletedCourse);
         assertEquals(0, schoolService.sizeOfCourses());
     }
@@ -307,13 +310,13 @@ class SchoolServicesImplTest {
 
     @Test
     public void disactivateCourse(){
-        String disactivateCourse = schoolService.disactivateCourse(createdCourse.getCourseName(), savedSchool.getSchoolId());
+        java.lang.String disactivateCourse = schoolService.disactivateCourse(createdCourse.getCourseName(), savedSchool.getSchoolId());
         assertEquals("Course successfully disactivated", disactivateCourse);
     }
 
     @Test
     public void activateCourse(){
-        String activateCourse = schoolService.activateCourse(createdCourse.getCourseName(), savedSchool.getSchoolId());
+        java.lang.String activateCourse = schoolService.activateCourse(createdCourse.getCourseName(), savedSchool.getSchoolId());
         assertEquals("Course successfully activated", activateCourse);
     }
 
@@ -332,6 +335,26 @@ class SchoolServicesImplTest {
         assertNull(foundCourse);
 
     }
+
+    @Test
+    public void schoolCanEmployTeacher(){
+        EmployTeacherRequest employTeacherRequest = EmployTeacherRequest.builder()
+                .schoolId(savedSchool.getSchoolId())
+                .firstName("Ire")
+                .email("Ire@gmail.com")
+                .gender(Gender.FEMALE)
+                .dateOfBirth(LocalDate.now())
+                .build();
+        EmployTeacherResponse employedTeacher = schoolService.employNewTeacherToSchool(employTeacherRequest, employTeacherRequest.getSchoolId());
+        assertEquals("Ire", employedTeacher.getFirstName());
+        System.out.println(employedTeacher);
+    }
+
+//    @Test
+//    public void schoolCanAssignCourseToTeacher(){
+//        schoolService.assignCourseToTeacher();
+
+//    }
 
 }
 

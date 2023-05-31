@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Document
 public class Attendance {
         @Id
-        private String id;
+        private Teacher id;
 
         @DBRef
         private Student student;

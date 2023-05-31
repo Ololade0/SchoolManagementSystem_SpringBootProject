@@ -1,26 +1,27 @@
 package schoolmanagement.system.schoolmanagementsystem.services;
 
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EmployTeacherRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedTeacherProfileRequest;
 
 import java.util.List;
 
 public interface TeacherService {
-    Teacher addTeacher(Teacher teacher);
+    Teacher addTeacher(EmployTeacherRequest employTeacherRequest);
 
-    Teacher findTeacherById(String id);
+    Teacher findTeacherById(java.lang.String id);
 
-    Teacher findTeacherByName(String firstName);
+    Teacher findTeacherByName(java.lang.String firstName);
 
     List<Teacher> findAllTeachers(int limit, int page);
 
-    String deleteAll();
+    java.lang.String deleteAll();
 
     long size();
 
 
 
-    String deleteTeachersById(String id);
+    java.lang.String deleteTeachersById(java.lang.String id);
 
     Teacher updateTeachersProfile(UpdatedTeacherProfileRequest updatedProfileRequest);
 }

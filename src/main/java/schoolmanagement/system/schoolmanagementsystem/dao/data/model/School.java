@@ -19,10 +19,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class School {
     @Id
-    private String id;
-    private String schoolName;
-    private String schoolLocation;
-    private String email;
+    private java.lang.String id;
+    private java.lang.String schoolName;
+    private java.lang.String schoolLocation;
+    private java.lang.String email;
     @DBRef
     private List<Student> students = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class School {
     @DBRef
     private Set<Role> roleHashSet;
 
-    public School(String id, String schoolName, String schoolLocation, String email,
+    public School(java.lang.String id, java.lang.String schoolName, java.lang.String schoolLocation, java.lang.String email,
 
                   RoleType roleType) {
         this.id = id;

@@ -30,7 +30,7 @@ public class Student {
     private Set<Role> roleHashSet;
 
 
-    public Student(String id, String studentFirstName, String studentLastName, String gender, String studentAge, String email,
+    public Student(String id, String studentFirstName, String studentLastName,String gender, String studentAge,String email,
                    String password,
                    RoleType roleType) {
         this.id = id;

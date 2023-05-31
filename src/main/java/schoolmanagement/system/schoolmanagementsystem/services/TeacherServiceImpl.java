@@ -8,25 +8,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Teacher;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.TeacherRepository;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EmployTeacherRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedTeacherProfileRequest;
 import schoolmanagement.system.schoolmanagementsystem.exception.TeacherDoesNotExistException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService{
     private final TeacherRepository teacherRepository;
     @Override
-    public Teacher addTeacher(Teacher teacher) {
-
-        return teacherRepository.save(teacher);
+    public Teacher addTeacher(EmployTeacherRequest employTeacherRequest) {
+        Teacher teacher1 = Teacher.builder()
+                .firstName(employTeacherRequest.getFirstName())
+                .lastName(employTeacherRequest.getLastName())
+                .gender(employTeacherRequest.getGender())
+                .dateOfBirth(employTeacherRequest.getDateOfBirth())
+                .email(employTeacherRequest.getEmail())
+                .roles(new HashSet<>())
+                .build();
+        return teacherRepository.save(teacher1);
     }
 
     @Override
-    public Teacher findTeacherById(String id) {
+    public Teacher findTeacherById(java.lang.String id) {
         Optional<Teacher> school = teacherRepository.findById(id);
         if (school.isPresent()) {
             return teacherRepository.findById(id).orElseThrow(
@@ -37,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public Teacher findTeacherByName(String firstName) {
+    public Teacher findTeacherByName(java.lang.String firstName) {
         Optional<Teacher> school = teacherRepository.findTeacherByFirstName(firstName);
         if (school.isPresent()) {
             return teacherRepository.findTeacherByFirstName(firstName).orElseThrow(
@@ -64,7 +70,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public String deleteAll() {
+    public java.lang.String deleteAll() {
         teacherRepository.deleteAll();;
         return "All teachers sucessfully deleted";
     }
@@ -75,7 +81,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public String deleteTeachersById(String id) {
+    public java.lang.String deleteTeachersById(java.lang.String id) {
      Optional<Teacher> foundTeacher =  teacherRepository.findById(id);
      if(foundTeacher.isPresent()){
          teacherRepository.deleteById(id);

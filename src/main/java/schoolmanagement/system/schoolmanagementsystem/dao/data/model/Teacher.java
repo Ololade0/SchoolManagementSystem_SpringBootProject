@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.Gender;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -18,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Document("Teacher")
 public class Teacher {
+
     @Id
     private String id;
     private String firstName;
@@ -25,10 +25,11 @@ public class Teacher {
     private Gender gender;
     private LocalDate dateOfBirth;
     private String email;
-    private String password;
+//    private String password;
+//    private School school;
     @DBRef
     private Set<Role> roles;
-
-    @DBRef
-    private List<Course> courses;
+//
+//    @DBRef
+//    private List<Course> courses;
 }

@@ -1,5 +1,7 @@
 package schoolmanagement.system.schoolmanagementsystem.dao.data.model;
 
+import java.util.Set;
+
 public enum RoleType {
     ADMIN,
     PRINCIPAL,
@@ -8,5 +10,7 @@ public enum RoleType {
     PARENT,
     GUARDIAN,
     STUDENT,
-    LIBRARIAN
+    LIBRARIAN,
+    TEACHER
+
 }
