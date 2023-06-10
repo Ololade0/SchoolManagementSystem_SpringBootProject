@@ -4,14 +4,14 @@ import lombok.*;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class FindAllCourseRequest {
-
-    private String schoolId;
+@ToString
+public class EnrollForCourseRequest {
     private String studentId;
     private String courseId;
-       private  int page;
-    private int limit;
+    private String courseName;
+    private String courseTitle;
+    private String courseCode;
 }

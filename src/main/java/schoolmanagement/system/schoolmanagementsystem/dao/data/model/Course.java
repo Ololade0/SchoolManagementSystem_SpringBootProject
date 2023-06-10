@@ -16,13 +16,12 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.Cours
 @Document("course")
 public class Course {
     @Id
-    private java.lang.String id;
-    private java.lang.String courseName;
-    private java.lang.String courseTitle;
-    private java.lang.String courseCode;
+    private String id;
+    private String courseName;
+    private String courseTitle;
+    private String courseCode;
     private CourseStatus courseStatus;
-    @DBRef
-    private Teacher teacher;
+
 
 
 

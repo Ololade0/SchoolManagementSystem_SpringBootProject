@@ -8,13 +8,4 @@ public enum AttendanceStatus {
         EXCUSED
 
 
-//        private final String displayName;
-//
-//        AttendanceStatus(String displayName) {
-//            this.displayName = displayName;
-//        }
-//
-//        public String getDisplayName() {
-//            return displayName;
-//        }
 }

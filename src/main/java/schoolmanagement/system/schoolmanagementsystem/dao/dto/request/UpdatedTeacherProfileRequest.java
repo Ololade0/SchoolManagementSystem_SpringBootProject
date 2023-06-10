@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 @ToString
 public class UpdatedTeacherProfileRequest {
+    private String schoolId;
     private String teacherId;
     private String firstName;
     private String lastName;

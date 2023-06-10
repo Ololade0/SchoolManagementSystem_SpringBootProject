@@ -46,15 +46,15 @@ class TeacherServiceImplTest {
     @Test
     public void addTeacher() {
         assertEquals("ololade", savedTeacher.getFirstName());
-        assertThat(savedTeacher.getId()).isNotNull();
+        assertThat(savedTeacher).isNotNull();
         assertEquals(1, teacherService.size());
     }
 
     @Test
     public void findTeacherById() {
-        Teacher teacher = teacherService.findTeacherById(savedTeacher.getId());
-        assertThat(teacher.getId()).isEqualTo(savedTeacher.getId());
-        assertThat(savedTeacher.getId()).isNotNull();
+        Teacher teacher = teacherService.findTeacherById(savedTeacher.getTeacherId());
+        assertThat(teacher.getTeacherId()).isEqualTo(savedTeacher.getTeacherId());
+        assertThat(savedTeacher.getTeacherId()).isNotNull();
     }
 
     @Test
@@ -81,7 +81,7 @@ class TeacherServiceImplTest {
 
     @Test
     public void deleteTeachersById() {
-        teacherService.deleteTeachersById(savedTeacher.getId());
+        teacherService.deleteTeachersById(savedTeacher.getTeacherId());
         assertEquals(0, teacherService.size());
     }
 
@@ -95,7 +95,7 @@ class TeacherServiceImplTest {
     public void testThatTeacherProfileCanBeUpdated() {
         UpdatedTeacherProfileRequest updatedProfileRequest = UpdatedTeacherProfileRequest.builder()
                 .firstName("Eunice")
-                .teacherId(savedTeacher.getId())
+                .teacherId(savedTeacher.getTeacherId())
                 .lastName("Demilade")
                 .email("DemmyOlyns@gmail.com")
                 .gender(Gender.FEMALE)

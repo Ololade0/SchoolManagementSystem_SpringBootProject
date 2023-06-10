@@ -10,8 +10,10 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.CourseRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.CreateCourseRequest;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdateCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.exception.CourseDoesNotExistException;
+import schoolmanagement.system.schoolmanagementsystem.exception.CourseExistException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,6 @@ public class CourseServiceImpl implements CourseService {
     public Course findCourseById(String id) {
         if (courseRepository.findCourseById(id).isPresent()) {
             return courseRepository.findCourseById(id).get();
-
         }
         throw new CourseDoesNotExistException(CourseDoesNotExistException.CourseDoesNotExist(id));
     }
@@ -63,8 +64,8 @@ public class CourseServiceImpl implements CourseService {
     public Course findCourseByName(String courseName) {
         if (courseRepository.findCourseByCourseName(courseName).isPresent()) {
             return courseRepository.findCourseByCourseName(courseName).get();
-
         }
+
         throw new CourseDoesNotExistException(CourseDoesNotExistException.CourseDoesNotExist(courseName));
     }
 
@@ -129,6 +130,18 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseStatus(CourseStatus.DISACTIVATED);
         courseRepository.save(course);
         return "Course successfully Disactivated";
+    }
+
+    @Override
+    public Course enrollForCourse(EnrollForCourseRequest enrollForCourseRequest) {
+//        Optional<Course> foundCourse = courseRepository.findCourseById(enrollForCourseRequest.getCourseId());
+      Course foundCourse =  findCourseById(enrollForCourseRequest.getCourseId());
+        if(foundCourse != null){
+            courseRepository.save(foundCourse);
+            return foundCourse;
+
+        }
+        throw  new CourseDoesNotExistException("Course Cannot be found");
     }
 
     @Override

@@ -7,10 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Student;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.StudentRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.AdmitStudentRequest;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedStudentProfileRequest;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.AdmitStudentResponse;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.EnrollCourseResponse;
 import schoolmanagement.system.schoolmanagementsystem.exception.SchoolDoesExistException;
 import schoolmanagement.system.schoolmanagementsystem.exception.StudentDoesNotExistException;
 
@@ -23,13 +26,14 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final CourseService courseService;
 
 
 
     @Override
     public Student admitstudent(AdmitStudentRequest admitStudentRequest) {
 //        if (studentRepository.findStudentByEmail(admitStudentRequest.getEmailAddress()).isPresent()) {
-//            throw new StudentExistException("Student with " + admitStudentRequest.getEmailAddress() + "already exist");
+//            throw new StudentAlreadyExistException("Student with " + admitStudentRequest.getEmailAddress() + "already exist");
 //        }
 //        else
 //        {
@@ -41,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
                     .email(admitStudentRequest.getEmailAddress())
                     .gender(admitStudentRequest.getGender())
                     .build();
-            newStudent.setId(newStudent.getId());
+//            newStudent.setId(newStudent.getId());
             return studentRepository.save(newStudent);
 
         }
@@ -103,6 +107,11 @@ public class StudentServiceImpl implements StudentService {
         }
         return students;
     }
+
+
+
+
+
     @Override
     public String deleteStudentById(String id) {
         Optional<Student> foundStudent = studentRepository.findStudentById(id);
@@ -157,7 +166,39 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-}
+
+
+    @Override
+    public List<Course> findAllCourses(int limit, int page, String studentId) {
+        Optional<Student> foundStudent = studentRepository.findStudentById(studentId);
+        if (foundStudent.isPresent()) {
+            return courseService.findAllCourses(limit, page);
+        }
+        throw new StudentDoesNotExistException(StudentDoesNotExistException.StudentDoesNotExist(studentId));
+    }
+
+
+
+    @Override
+    public EnrollCourseResponse studentCanEnrollForCourses(EnrollForCourseRequest enrollForCourseRequest) {
+            Course enrolledCourse = courseService.enrollForCourse(enrollForCourseRequest);
+            Optional<Student> foundStudent = studentRepository.findStudentById(enrollForCourseRequest.getStudentId());
+            if (foundStudent.isPresent() && foundStudent.get().getCourses().contains(enrolledCourse)) {
+                foundStudent.get().getCourses().add(enrolledCourse);
+            }
+
+            return EnrollCourseResponse
+                    .builder()
+                    .message("You have successfully register for this course")
+                    .courseName(enrolledCourse.getCourseName())
+                    .build();
+        }
+
+    }
+
+
+
+
 
 
 

@@ -13,6 +13,7 @@ import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +23,8 @@ class SchoolServicesImplTest {
     RegisterSchoolResponse savedSchool;
     AdmitStudentResponse savedStudent;
     CreateCourseResponse createdCourse;
+
+    EmployedTeacherResponse employedTeacher;
 
     @Autowired
     private SchoolServices schoolService;
@@ -64,7 +67,18 @@ class SchoolServicesImplTest {
         createdCourse = schoolService.createCourse(createCourseRequest);
 
 
-    }
+            EmployTeacherRequest employTeacherRequest = EmployTeacherRequest.builder()
+                    .firstName("Ire")
+                    .lastName("Wale")
+                    .email("Ire@gmail.com")
+                    .gender(Gender.FEMALE)
+                    .dateOfBirth(LocalDate.now())
+                    .schoolId(savedSchool.getSchoolId())
+                    .build();
+             employedTeacher = schoolService.employNewTeacherToSchool(employTeacherRequest);
+
+        }
+
 
     @AfterEach
     void tearDown() {
@@ -72,6 +86,7 @@ class SchoolServicesImplTest {
         schoolService.deleteAllSchools();
         schoolService.deleteAllStudents();
         schoolService.deleteAllCourses();
+        schoolService.deleteAllTeachers();
     }
 
 
@@ -223,7 +238,7 @@ class SchoolServicesImplTest {
                 .build();
         CreateCourseResponse createdCourse = schoolService.createCourse(createCourseRequest);
         assertEquals("Python", createdCourse.getCourseName());
-        System.out.println(createdCourse);
+
     }
 
     @Test
@@ -339,23 +354,88 @@ class SchoolServicesImplTest {
     @Test
     public void schoolCanEmployTeacher(){
         EmployTeacherRequest employTeacherRequest = EmployTeacherRequest.builder()
-                .schoolId(savedSchool.getSchoolId())
                 .firstName("Ire")
+                .lastName("Wale")
                 .email("Ire@gmail.com")
                 .gender(Gender.FEMALE)
                 .dateOfBirth(LocalDate.now())
+                .schoolId(savedSchool.getSchoolId())
                 .build();
-        EmployTeacherResponse employedTeacher = schoolService.employNewTeacherToSchool(employTeacherRequest, employTeacherRequest.getSchoolId());
+        EmployedTeacherResponse employedTeacher = schoolService.employNewTeacherToSchool(employTeacherRequest);
         assertEquals("Ire", employedTeacher.getFirstName());
-        System.out.println(employedTeacher);
-    }
+        assertEquals("Wale", employedTeacher.getLastName());
+        assertEquals("Ire@gmail.com", employedTeacher.getEmail());
+        assertEquals("Teacher details successfully added to school", employedTeacher.getMessage());
 
+    }
 //    @Test
 //    public void schoolCanAssignCourseToTeacher(){
 //        schoolService.assignCourseToTeacher();
-
+//
 //    }
 
+    @Test
+    public void testThatSchoolCanFindTeacherById() {
+        Teacher foundTeacher = schoolService.findTeacherById(employedTeacher.getTeacherId(), savedSchool.getSchoolId());
+        assertThat(foundTeacher.getTeacherId()).isEqualTo(employedTeacher.getTeacherId());
+        assertThat(foundTeacher.getTeacherId()).isGreaterThan("50");
+        assertThat(foundTeacher).isNotNull();
+    }
+
+    @Test
+    public void testThatSchoolCanFindTeacherByName() {
+        Teacher foundTeacher = schoolService.findTeacherByName(employedTeacher.getFirstName(), savedSchool.getSchoolId());
+        assertThat(foundTeacher.getFirstName()).isEqualTo(employedTeacher.getFirstName());
+        assertThat(foundTeacher).isNotNull();
+    }
+
+    @Test
+    public void testThatSchoolCanFindAllTeachers() {
+        FindAllTeacherRequest findAllTeacherRequest = FindAllTeacherRequest.builder()
+                .limit(1)
+                .page(1)
+                .schoolId(savedSchool.getSchoolId())
+                .build();
+        List<Teacher> allTeachers = schoolService.findAllTeachers(findAllTeacherRequest.getLimit(), findAllTeacherRequest.getPage(), savedSchool.getSchoolId());
+        assertEquals("Ire", allTeachers.get(0).getFirstName());
+        assertEquals("Wale", allTeachers.get(0).getLastName());
+        assertEquals("Ire@gmail.com", allTeachers.get(0).getEmail());
+        assertEquals(1, schoolService.sizeOfTeachers());
+
+    }
+
+    @Test
+    public void testThatSchoolCanDeleteAllTeachers() {
+        String deletedTeachers = schoolService.deleteAllTeachers();
+        assertEquals(0, schoolService.sizeOfTeachers());
+
+    }
+
+    @Test
+    public void testThatSchoolCanDeleteTeachersById() {
+        String deletedTeachers = schoolService.deleteTeacherById(savedSchool.getSchoolId(), employedTeacher.getTeacherId());
+        assertEquals("Teacher successfully deleted", deletedTeachers);
+        assertEquals(0, schoolService.sizeOfTeachers());
+    }
+
+    @Test
+    public void testThatSchoolCanUpdateTeacherProfiles() {
+        UpdatedTeacherProfileRequest updatedTeacherProfileRequest = UpdatedTeacherProfileRequest
+                .builder()
+                .firstName("Ololade")
+                .lastName("Temidayo")
+                .gender(Gender.MALE)
+                .schoolId(savedSchool.getSchoolId())
+                .teacherId(employedTeacher.getTeacherId())
+                .email("Olyns@gmail.com")
+                .dateOfBirth(LocalDate.now())
+                .build();
+
+        UpdateTeacherProfileResponse response = schoolService.updateTeacherProfile(updatedTeacherProfileRequest);
+        assertEquals("Teacher profile successfully updated", response.getMessage());
+        assertEquals("Ololade", response.getFirstName());
+        assertThat(response.getId()).isNotNull();
+    }
 }
 
 

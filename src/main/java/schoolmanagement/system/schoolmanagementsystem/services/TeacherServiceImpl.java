@@ -26,13 +26,14 @@ public class TeacherServiceImpl implements TeacherService{
                 .gender(employTeacherRequest.getGender())
                 .dateOfBirth(employTeacherRequest.getDateOfBirth())
                 .email(employTeacherRequest.getEmail())
-                .roles(new HashSet<>())
+                .roleHashSet(new HashSet<>())
                 .build();
-        return teacherRepository.save(teacher1);
+         return teacherRepository.save(teacher1);
+
     }
 
     @Override
-    public Teacher findTeacherById(java.lang.String id) {
+    public Teacher findTeacherById(String id) {
         Optional<Teacher> school = teacherRepository.findById(id);
         if (school.isPresent()) {
             return teacherRepository.findById(id).orElseThrow(
@@ -43,7 +44,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public Teacher findTeacherByName(java.lang.String firstName) {
+    public Teacher findTeacherByName(String firstName) {
         Optional<Teacher> school = teacherRepository.findTeacherByFirstName(firstName);
         if (school.isPresent()) {
             return teacherRepository.findTeacherByFirstName(firstName).orElseThrow(
@@ -70,7 +71,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public java.lang.String deleteAll() {
+    public String deleteAll() {
         teacherRepository.deleteAll();;
         return "All teachers sucessfully deleted";
     }
@@ -81,7 +82,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public java.lang.String deleteTeachersById(java.lang.String id) {
+    public String deleteTeachersById(String id) {
      Optional<Teacher> foundTeacher =  teacherRepository.findById(id);
      if(foundTeacher.isPresent()){
          teacherRepository.deleteById(id);
@@ -95,7 +96,6 @@ public class TeacherServiceImpl implements TeacherService{
     public Teacher updateTeachersProfile(UpdatedTeacherProfileRequest updatedProfileRequest) {
         Optional<Teacher> foundTeacher= teacherRepository.findById(updatedProfileRequest.getTeacherId());
         if (foundTeacher.isPresent()) {
-
                 foundTeacher.get().setEmail(updatedProfileRequest.getEmail());
                 foundTeacher.get().setFirstName(updatedProfileRequest.getFirstName());
                 foundTeacher.get().setLastName(updatedProfileRequest.getLastName());

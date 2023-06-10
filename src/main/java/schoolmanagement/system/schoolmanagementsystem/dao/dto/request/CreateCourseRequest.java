@@ -12,6 +12,7 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.Course
 @ToString
 public class CreateCourseRequest {
     private String schoolId;
+    private String studentId;
     private String courseCode;
     private String courseTitle;
 

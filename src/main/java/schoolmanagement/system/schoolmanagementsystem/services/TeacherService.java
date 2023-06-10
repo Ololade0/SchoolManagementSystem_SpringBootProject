@@ -9,19 +9,19 @@ import java.util.List;
 public interface TeacherService {
     Teacher addTeacher(EmployTeacherRequest employTeacherRequest);
 
-    Teacher findTeacherById(java.lang.String id);
+    Teacher findTeacherById(String id);
 
-    Teacher findTeacherByName(java.lang.String firstName);
+    Teacher findTeacherByName(String firstName);
 
     List<Teacher> findAllTeachers(int limit, int page);
 
-    java.lang.String deleteAll();
+   String deleteAll();
 
     long size();
 
 
 
-    java.lang.String deleteTeachersById(java.lang.String id);
+    String deleteTeachersById(String id);
 
     Teacher updateTeachersProfile(UpdatedTeacherProfileRequest updatedProfileRequest);
 }

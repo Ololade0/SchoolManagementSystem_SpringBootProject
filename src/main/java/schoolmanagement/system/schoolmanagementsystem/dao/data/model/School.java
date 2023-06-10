@@ -19,23 +19,23 @@ import java.util.Set;
 @NoArgsConstructor
 public class School {
     @Id
-    private java.lang.String id;
-    private java.lang.String schoolName;
-    private java.lang.String schoolLocation;
-    private java.lang.String email;
+    private String id;
+    private String schoolName;
+    private String schoolLocation;
+    private String email;
     @DBRef
-    private List<Student> students = new ArrayList<>();
+    private Set<Student> students = new HashSet<>();
 
     @DBRef
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
     @DBRef
-    private List<Teacher> teachers;
+    private List<Teacher> teachers = new ArrayList<>();
 
     @DBRef
     private Set<Role> roleHashSet;
 
-    public School(java.lang.String id, java.lang.String schoolName, java.lang.String schoolLocation, java.lang.String email,
+    public School(String id, String schoolName, String schoolLocation, String email,
 
                   RoleType roleType) {
         this.id = id;

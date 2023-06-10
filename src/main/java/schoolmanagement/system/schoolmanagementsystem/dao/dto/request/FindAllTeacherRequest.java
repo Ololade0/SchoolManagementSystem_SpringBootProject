@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 
 public class FindAllTeacherRequest {
+    private String schoolId;
        private  int page;
     private int limit;
 }

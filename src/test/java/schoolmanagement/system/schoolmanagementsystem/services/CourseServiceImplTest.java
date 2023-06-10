@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.CreateCourseRequest;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.FindAllCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdateCourseRequest;
 
@@ -34,6 +35,7 @@ class CourseServiceImplTest {
 
     @AfterEach
     void tearDown() {
+
         courseServices.deleteAll();
     }
 
@@ -154,6 +156,23 @@ class CourseServiceImplTest {
         assertEquals("Introduction to Java Programming language", updatedCourse.getCourseTitle());
         assertEquals("Jav102", updatedCourse.getCourseCode());
         assertEquals(CourseStatus.DISACTIVATED, updatedCourse.getCourseStatus());
+
+
+    }
+
+    @Test
+    public void  enrollForCourse(){
+        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
+                .courseId(savedCourse.getId())
+                .courseName(savedCourse.getCourseName())
+                .courseCode(savedCourse.getCourseCode())
+                .courseTitle(savedCourse.getCourseTitle())
+                .build();
+        Course course = courseServices.enrollForCourse(enrollForCourseRequest);
+        assertThat(course.getId()).isNotNull();
+        assertEquals("Pythons",course.getCourseName());
+        assertEquals("Introduction To Pythons",course.getCourseTitle());
+        assertEquals("1011",course.getCourseCode());
 
 
     }

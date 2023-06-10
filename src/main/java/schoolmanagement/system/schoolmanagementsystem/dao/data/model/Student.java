@@ -25,7 +25,7 @@ public class Student {
     private String email;
     private String password;
     @DBRef
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
     @DBRef
     private Set<Role> roleHashSet;
 

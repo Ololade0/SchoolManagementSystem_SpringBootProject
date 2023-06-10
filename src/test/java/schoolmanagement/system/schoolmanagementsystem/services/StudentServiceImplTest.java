@@ -7,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Student;
-
-import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.AdmitStudentRequest;
-
-import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.FindAllStudentRequest;
-import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedStudentProfileRequest;
-
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.*;
+import schoolmanagement.system.schoolmanagementsystem.dao.dto.response.EnrollCourseResponse;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,13 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class StudentServiceImplTest {
     @Autowired
     private StudentService studentService;
+
     Student savedStudent;
+
 
 
     @AfterEach
     void tearDown() {
         studentService.deleteAll();
 //        studentService.deleteAllCourses();
+
 
     }
 
@@ -43,6 +42,12 @@ class StudentServiceImplTest {
                 .gender("FEMALE")
                 .build();
         savedStudent =   studentService.admitstudent(admitStudentRequest);
+
+//        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
+//                .courseName("Java")
+//                .studentId(savedStudent.getId())
+//                .build();
+//    EnrollCourseResponse enrollCourseResponse= studentService.studentCanEnrollForCourses(enrollForCourseRequest);
 
 
     }
@@ -136,19 +141,39 @@ class StudentServiceImplTest {
 
 
     }
+    @Test
+    public void testThatStudentCanEnrollForCourse(){
+        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
+                .courseName("Java")
+                .courseCode("Jav101")
+                .courseTitle("Introduction to Java Programming Language")
+                .studentId(savedStudent.getId())
+                .build();
+        EnrollCourseResponse enrollCourseResponse = studentService.studentCanEnrollForCourses(enrollForCourseRequest);
+
+
+
+    }
 
 //    @Test
-//    public void testThatStudentCanLogin() {
-//        LoginRest loginRest = new LoginRest();
-//        loginRest.setPassword(savedStudent.getPassword());
-//        loginRest.setEmail(savedStudent.getEmail());
-//        var email = studentService.login(loginRest);
-//        assertEquals(200, email.getCode());
-//        assertEquals("Login successful", email.getMessage());
+//    public void testThatStudentCanFindAllCourse() {
+//        FindAllCourseRequest findAllCourseRequest = FindAllCourseRequest.builder()
+//                .page(1)
+//                .limit(1)
+//                .studentId(savedStudent.getId())
+//                .schoolId(createdCourse.getSchoolId())
+//                .courseId(createdCourse.getCourseId())
+//                .build();
+//       List<Course> courseList = studentService.findAllCourses(findAllCourseRequest.getLimit(), findAllCourseRequest.getPage(), findAllCourseRequest.getStudentId());
+//        assertEquals("Adesuyi", courseList.get(0).getCourseTitle());
+//        assertEquals(CourseStatus.ACTIVATED, courseList.get(0).getCourseStatus());
+//        assertEquals("Ololade@gmail.com", courseList.get(0).getCourseName());
 //    }
+    }
 
 
 
 
 
-}
+
+

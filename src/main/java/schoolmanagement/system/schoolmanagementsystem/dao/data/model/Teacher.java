@@ -19,17 +19,14 @@ import java.util.Set;
 public class Teacher {
 
     @Id
-    private String id;
+    private String teacherId;
     private String firstName;
     private String lastName;
     private Gender gender;
     private LocalDate dateOfBirth;
     private String email;
-//    private String password;
-//    private School school;
+
     @DBRef
-    private Set<Role> roles;
-//
-//    @DBRef
-//    private List<Course> courses;
+    private Set<Role> roleHashSet;
+
 }
