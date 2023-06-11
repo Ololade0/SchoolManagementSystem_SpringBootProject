@@ -157,25 +157,27 @@ class CourseServiceImplTest {
         assertEquals("Jav102", updatedCourse.getCourseCode());
         assertEquals(CourseStatus.DISACTIVATED, updatedCourse.getCourseStatus());
 
-
     }
 
-    @Test
-    public void  enrollForCourse(){
-        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
-                .courseId(savedCourse.getId())
-                .courseName(savedCourse.getCourseName())
-                .courseCode(savedCourse.getCourseCode())
-                .courseTitle(savedCourse.getCourseTitle())
-                .build();
-        Course course = courseServices.enrollForCourse(enrollForCourseRequest);
-        assertThat(course.getId()).isNotNull();
-        assertEquals("Pythons",course.getCourseName());
-        assertEquals("Introduction To Pythons",course.getCourseTitle());
-        assertEquals("1011",course.getCourseCode());
 
 
-    }
+
+//    @Test
+//    public void  enrollForCourse(){
+//        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
+////                .courseId(savedCourse.getId())
+//                .courseName(savedCourse.getCourseName())
+//                .courseCode(savedCourse.getCourseCode())
+//                .courseTitle(savedCourse.getCourseTitle())
+//                .build();
+//        Course course = courseServices.enrollForCourse(enrollForCourseRequest);
+//        assertThat(course.getId()).isNotNull();
+//        assertEquals("Pythons",course.getCourseName());
+//        assertEquals("Introduction To Pythons",course.getCourseTitle());
+//        assertEquals("1011",course.getCourseCode());
+//
+//
+//    }
 
 
 

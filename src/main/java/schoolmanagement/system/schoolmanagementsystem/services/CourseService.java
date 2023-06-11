@@ -2,10 +2,10 @@ package schoolmanagement.system.schoolmanagementsystem.services;
 
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.CreateCourseRequest;
-import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdateCourseRequest;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CourseService {
     Course createCourse(CreateCourseRequest createCourseRequest);
@@ -26,7 +26,6 @@ public interface CourseService {
 
     String deleteById(String courseId);
 
-
     Course updateCourseProfile(UpdateCourseRequest updateCourseRequest, String courseId);
 
 
@@ -38,5 +37,4 @@ public interface CourseService {
 
     String disactivateCourse(String courseName);
 
-    Course enrollForCourse(EnrollForCourseRequest enrollForCourseRequest);
 }

@@ -2,6 +2,7 @@ package schoolmanagement.system.schoolmanagementsystem.services;
 
 
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
+import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Enrollment;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Student;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.AdmitStudentRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
@@ -32,12 +33,19 @@ public interface StudentService {
 
     List<Student> findAllStudent(int page, int limit);
 
+//    Enrollment enrollStudentInCourse(String studentId, String courseId);
+
+    Student enrollStudentInCourses(String studentId, String courseId);
 
 
-    List<Course> findAllCourses(int limit, int page, String studentId);
 
 
-//    String enrollForCourse(EnrollForCourseRequest enrollForCourseRequest);
+//    void studentCanEnrollInCourse(String studentId, String courseId);
+//    String enrollStudentInCourse(EnrollForCourseRequest enrollForCourseRequest);
 
-    EnrollCourseResponse studentCanEnrollForCourses(EnrollForCourseRequest enrollForCourseRequest);
+
+
+
+
+
 }

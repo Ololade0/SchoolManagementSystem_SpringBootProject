@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TeacherRepository extends MongoRepository<Teacher, java.lang.String> {
-    Optional<Teacher>findTeacherByFirstName(java.lang.String teacherName);
+    Optional<Teacher>findTeacherByFirstName(String teacherName);
 }

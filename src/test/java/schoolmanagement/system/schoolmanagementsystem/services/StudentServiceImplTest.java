@@ -16,10 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class StudentServiceImplTest {
+
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private SchoolServices schoolServices;
+
 
     Student savedStudent;
+
 
 
 
@@ -27,6 +32,7 @@ class StudentServiceImplTest {
     void tearDown() {
         studentService.deleteAll();
 //        studentService.deleteAllCourses();
+
 
 
     }
@@ -121,13 +127,14 @@ class StudentServiceImplTest {
         studentService.deleteStudentById(savedStudent.getId());
         assertEquals(0, studentService.size());
     }
+
+
     @Test
     public void testThatStudentCanBeUpdated(){
         UpdatedStudentProfileRequest updatedProfileRequest = UpdatedStudentProfileRequest.builder()
                 .studentFirstName("Eunice")
                 .studentId(savedStudent.getId())
                 .studentLastName("Demilade")
-
                 .emailAddress("DemmyOlyns@gmail.com")
                 .studentAge("30")
                 .studentGender("male")
@@ -138,22 +145,9 @@ class StudentServiceImplTest {
         assertEquals("30", updatedStudent.getStudentAge());
         assertEquals("male", updatedStudent.getGender());
         assertEquals("DemmyOlyns@gmail.com", updatedStudent.getEmail());
-
-
     }
-    @Test
-    public void testThatStudentCanEnrollForCourse(){
-        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
-                .courseName("Java")
-                .courseCode("Jav101")
-                .courseTitle("Introduction to Java Programming Language")
-                .studentId(savedStudent.getId())
-                .build();
-        EnrollCourseResponse enrollCourseResponse = studentService.studentCanEnrollForCourses(enrollForCourseRequest);
 
 
-
-    }
 
 //    @Test
 //    public void testThatStudentCanFindAllCourse() {

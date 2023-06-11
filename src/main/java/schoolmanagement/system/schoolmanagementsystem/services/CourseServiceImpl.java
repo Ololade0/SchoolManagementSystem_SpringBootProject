@@ -10,14 +10,13 @@ import schoolmanagement.system.schoolmanagementsystem.dao.data.model.Course;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.model.enums.CourseStatus;
 import schoolmanagement.system.schoolmanagementsystem.dao.data.repository.CourseRepository;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.CreateCourseRequest;
-import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdateCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.exception.CourseDoesNotExistException;
-import schoolmanagement.system.schoolmanagementsystem.exception.CourseExistException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -132,23 +131,7 @@ public class CourseServiceImpl implements CourseService {
         return "Course successfully Disactivated";
     }
 
-    @Override
-    public Course enrollForCourse(EnrollForCourseRequest enrollForCourseRequest) {
-//        Optional<Course> foundCourse = courseRepository.findCourseById(enrollForCourseRequest.getCourseId());
-      Course foundCourse =  findCourseById(enrollForCourseRequest.getCourseId());
-        if(foundCourse != null){
-            courseRepository.save(foundCourse);
-            return foundCourse;
 
-        }
-        throw  new CourseDoesNotExistException("Course Cannot be found");
-    }
-
-    @Override
-    public Course updateCourseProfile(UpdateCourseRequest updateCourseRequest, String courseId) {
-        return updateCourse(updateCourseRequest, courseId);
-
-    }
 
     @Override
     public List<Course> findAllActivatedCourse() {
@@ -160,6 +143,12 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAllDisactivatedCourse() {
         List<Course> disActivatedCourses =courseRepository.findCourseByCourseStatus(CourseStatus.DISACTIVATED);
         return disActivatedCourses.isEmpty() ? null : disActivatedCourses;
+    }
+
+    @Override
+    public Course updateCourseProfile(UpdateCourseRequest updateCourseRequest, String courseId) {
+        return updateCourse(updateCourseRequest, courseId);
+
     }
 
 

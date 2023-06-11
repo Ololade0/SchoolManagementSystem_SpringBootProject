@@ -11,7 +11,7 @@ import lombok.*;
 public class EnrollForCourseRequest {
     private String studentId;
     private String courseId;
-    private String courseName;
-    private String courseTitle;
-    private String courseCode;
+//    private String courseName;
+//    private String courseTitle;
+//    private String courseCode;
 }
