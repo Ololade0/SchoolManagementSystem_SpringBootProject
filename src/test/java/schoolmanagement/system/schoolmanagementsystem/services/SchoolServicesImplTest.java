@@ -445,29 +445,11 @@ class SchoolServicesImplTest {
     @Test
     public void enrollStudentInCourses(){
    Student student = studentService.enrollStudentInCourses(savedStudent.getStudentId(), createdCourse.getCourseId());
-        System.out.println(student);
-//        ass
-
+        assertEquals(1L, student.getCourses().size());
     }
 
 
 
-//    @Test
-//    public void testEnrollStudentInCourse() {
-//        EnrollForCourseRequest enrollForCourseRequest = EnrollForCourseRequest.builder()
-//                .courseId(createdCourse.getCourseId())
-//                .studentId(savedStudent.getStudentId())
-//                .build();
-////        Enrollment enrollment = enrollmentService.enrollStudentInCourse(enrollForCourseRequest.getStudentId(),enrollForCourseRequest.getCourseId());
-//        Enrollment enrollment = studentService.enrollStudentInCourse(enrollForCourseRequest.getStudentId(), enrollForCourseRequest.getCourseId());
-//        assertNotNull(enrollment);
-//        assertNotNull(enrollment.getId());
-//        assertEquals("Demilade", enrollment.getStudent().getStudentLastName());
-////        assertEquals("pyth101", enrollment.getCourse().getCourseCode());
-//        System.out.println(enrollment);
-//
-//        assertNotNull(enrollment.getEnrollmentDate());
-//    }
 }
 
 

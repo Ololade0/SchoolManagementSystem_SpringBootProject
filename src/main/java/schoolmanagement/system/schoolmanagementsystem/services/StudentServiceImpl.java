@@ -14,6 +14,7 @@ import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.AdmitStude
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.EnrollForCourseRequest;
 import schoolmanagement.system.schoolmanagementsystem.dao.dto.request.UpdatedStudentProfileRequest;
 
+import schoolmanagement.system.schoolmanagementsystem.exception.CourseDoesNotExistException;
 import schoolmanagement.system.schoolmanagementsystem.exception.SchoolDoesExistException;
 import schoolmanagement.system.schoolmanagementsystem.exception.StudentDoesNotExistException;
 
@@ -28,7 +29,6 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final CourseService courseService;
-
 
 
     @Override
@@ -173,13 +173,17 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(studentId).orElse(null);
         Course course = courseService.findCourseById(courseId);
         if (!(student == null)) {
-            student.getCourses().add(course);
-            return studentRepository.save(student);
+            if (!(course == null)) {
+                student.getCourses().add(course);
+                return studentRepository.save(student);
 
+            }
+
+            throw new CourseDoesNotExistException("Course cannot be found");
         }
-
-        return null;
+        throw new StudentDoesNotExistException("Student cannot be found");
     }
+
 }
 
 
